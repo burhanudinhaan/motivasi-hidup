@@ -1,343 +1,329 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Motivasi Hidup — Semangat Setiap Hari</title>
-  <meta name="description" content="Aplikasi kata-kata motivasi: cari, filter, favorit, simpan kustom, bagikan.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Motivasi Hidup – Semangat Setiap Hari</title>
+  <meta name="description" content="Aplikasi kata-kata motivasi hidup: cari, filter, favorit, dan bagikan ke WhatsApp." />
   <style>
     :root{
-      --bg1:#071024; --bg2:#0b1220; --card:#071428;
-      --primary:#06b6d4; --accent:#8b5cf6; --muted:#9fb0c8; --text:#e6eef7;
-      --glass: rgba(255,255,255,0.04);
-      --shadow: 0 12px 30px rgba(2,6,23,.6);
+      --bg1:#0f172a; /* slate-900 */
+      --bg2:#1e293b; /* slate-800 */
+      --primary:#22d3ee; /* cyan-400 */
+      --accent:#a78bfa; /* violet-400 */
+      --text:#e2e8f0; /* slate-200 */
+      --muted:#94a3b8; /* slate-400 */
+      --danger:#f43f5e;
+      --success:#10b981;
+      --shadow:0 20px 40px rgba(0,0,0,.35)
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      color:var(--text); background: radial-gradient(800px 400px at 10% 10%, rgba(139,92,246,.08), transparent),
-      radial-gradient(800px 400px at 90% 90%, rgba(6,182,212,.06), transparent), linear-gradient(180deg,var(--bg1),var(--bg2));
-      display:flex; align-items:center; justify-content:center; padding:28px;
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu; color:var(--text);
+      background: radial-gradient(1200px 800px at 100% 0%, rgba(34,211,238,.15), transparent 60%),
+                  radial-gradient(1000px 600px at 0% 100%, rgba(167,139,250,.15), transparent 60%),
+                  linear-gradient(180deg, var(--bg1), var(--bg2));
+      display:flex; align-items:center; justify-content:center; padding:24px;
     }
-    .app{width:100%; max-width:980px}
-    header{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:18px}
-    .brand{display:flex; align-items:center; gap:12px}
-    .logo{width:52px; height:52px; border-radius:12px; background:linear-gradient(135deg,var(--primary),var(--accent)); display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow); font-weight:700}
-    h1{font-size:20px;margin:0}
-    .sub{font-size:13px;color:var(--muted)}
+    .app{width:100%; max-width:860px}
+    header{
+      display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      margin-bottom:16px;
+    }
+    .title{display:flex; align-items:center; gap:10px}
+    .logo{width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg,var(--primary),var(--accent)); box-shadow:var(--shadow)}
+    h1{font-size:20px; margin:0}
+    .sub{font-size:12px; color:var(--muted)}
 
-    .controls{display:grid; grid-template-columns:1fr 160px 140px; gap:10px; margin-top:8px}
-    @media (max-width:760px){.controls{grid-template-columns:1fr 1fr;}.controls .wide{grid-column:1/-1}}
-    input[type=search], select{width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.06); background:var(--glass); color:var(--text); outline:none}
-    .meta-row{display:flex; gap:8px; align-items:center}
+    .controls{display:grid; grid-template-columns:1fr 160px 130px; gap:10px; margin:10px 0 18px}
+    @media (max-width:640px){.controls{grid-template-columns:1fr 1fr;}.controls .wide{grid-column:1/-1}}
 
-    .main{display:grid; grid-template-columns:1fr 320px; gap:18px}
-    @media (max-width:960px){.main{grid-template-columns:1fr}}
+    input[type="search"], select{
+      width:100%; padding:11px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05); color:var(--text); outline:none;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.05)
+    }
+    input::placeholder{color:var(--muted)}
 
-    .quote-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:16px; padding:22px; box-shadow:var(--shadow); position:relative; min-height:220px; display:flex; flex-direction:column; justify-content:space-between; transition:transform .25s ease}
-    .quote-card:hover{transform:translateY(-4px)}
-    .q-text{font-size:20px; line-height:1.65; margin:0 0 14px}
-    .q-meta{display:flex; gap:12px; align-items:center; color:var(--muted); font-size:13px}
-    .q-meta .tag{background:rgba(255,255,255,.03); padding:6px 10px; border-radius:999px}
+    .quote-card{
+      background:rgba(15,23,42,.6); border:1px solid rgba(255,255,255,.08); border-radius:20px;
+      padding:22px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+    }
+    .quote-card::after{
+      content:"\201C"; position:absolute; right:16px; top:-22px; font-size:160px; color:rgba(255,255,255,.05);
+      pointer-events:none; font-family:Georgia,serif
+    }
+    .q-text{font-size:20px; line-height:1.6; margin:0 0 12px}
+    .q-meta{display:flex; gap:10px; align-items:center; justify-content:space-between; color:var(--muted); font-size:13px}
 
-    .btns{display:flex; gap:10px; flex-wrap:wrap}
-    .btn{border:none; padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:700}
-    .btn.primary{background:linear-gradient(135deg,var(--primary),#67e8f9); color:#051122}
-    .btn.ghost{background:transparent; border:1px solid rgba(255,255,255,.06); color:var(--text)}
-    .btn.warn{background:linear-gradient(135deg,#f59e0b,#fb923c); color:#071122}
-    .pill{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; font-size:13px; background:rgba(255,255,255,.03)}
+    .btns{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px}
+    .btn{
+      appearance:none; border:none; cursor:pointer; padding:10px 14px; border-radius:12px; font-weight:600; color:#0b1220;
+      background:linear-gradient(135deg,var(--primary),#67e8f9); box-shadow:0 8px 20px rgba(34,211,238,.25);
+      transition:.2s transform, .2s box-shadow
+    }
+    .btn:hover{transform:translateY(-2px); box-shadow:0 12px 24px rgba(34,211,238,.35)}
+    .btn.secondary{background:linear-gradient(135deg,var(--accent),#c4b5fd); box-shadow:0 8px 20px rgba(167,139,250,.25)}
+    .btn.ghost{background:rgba(255,255,255,.08); color:var(--text)}
+    .btn.danger{background:linear-gradient(135deg,#fb7185,#f43f5e); color:#fff}
+    .btn.success{background:linear-gradient(135deg,#6ee7b7,#34d399); color:#0b1220}
 
-    .sidebar{position:relative}
-    .list{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:12px; padding:12px; min-height:240px}
-    .quote-item{padding:8px; border-radius:8px; cursor:pointer}
-    .quote-item:hover{background:rgba(255,255,255,.02)}
+    .pill{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; font-size:12px;
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); color:var(--muted)}
 
-    .chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+    .kumpulan{margin-top:18px; display:flex; gap:8px; flex-wrap:wrap}
 
-    .footer{margin-top:16px; text-align:center; color:var(--muted); font-size:13px}
-
-    /* modal */
-    .modal-back{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(2,6,23,.5); z-index:60}
-    .modal{background:var(--card); border-radius:12px; padding:18px; width:100%; max-width:560px; box-shadow:var(--shadow)}
-    .modal h3{margin:0 0 8px}
-    textarea,input[type=text]{width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,.06); background:transparent; color:var(--text)}
-
-    /* small helpers */
-    .count{color:var(--muted); font-size:13px}
-    .small{font-size:13px; color:var(--muted)}
+    .footer{margin-top:16px; text-align:center; color:var(--muted); font-size:12px}
   </style>
 </head>
 <body>
   <div class="app">
     <header>
-      <div class="brand">
-        <div class="logo" aria-hidden="true">MH</div>
+      <div class="title">
+        <div class="logo" aria-hidden="true"></div>
         <div>
           <h1>Motivasi Hidup</h1>
-          <div class="sub">Koleksi kutipan motivasi — cari, favorit, kustom, bagikan</div>
+          <div class="sub">Cari, simpan favorit, dan bagikan ke WhatsApp</div>
         </div>
       </div>
-      <div class="meta-row">
-        <button class="btn ghost" id="exportBtn" title="Ekspor favorit">⬇️ Ekspor Favorit</button>
-        <button class="btn ghost" id="importBtn" title="Impor kutipan kustom">⬆️ Impor</button>
-        <button class="btn primary" id="openAdd">+ Tambah Kutipan</button>
-      </div>
+      <button class="btn ghost" id="addCustomBtn" title="Tambah kutipan sendiri">+ Tambah</button>
     </header>
 
     <div class="controls">
-      <input id="search" class="wide" type="search" placeholder="Cari... (tekan Enter untuk cari)" />
+      <input class="wide" id="search" type="search" placeholder="Cari kata kunci… (mis. 'move on', 'belajar')" />
       <select id="category">
         <option value="all">Semua Kategori</option>
       </select>
       <select id="filter">
-        <option value="all">Semua</option>
+        <option value="all">Semua Kutipan</option>
         <option value="favorites">Favorit</option>
-        <option value="custom">Kustom</option>
+        <option value="custom">Kutipan Kustom</option>
       </select>
     </div>
 
-    <div class="chips" id="chips"></div>
-
-    <div class="main">
-      <section>
-        <article class="quote-card" id="card">
-          <div>
-            <p class="q-text" id="qtext">Klik "Acak" untuk mulai 🎲</p>
-            <div class="q-meta">
-              <span class="pill" id="qcat">Kategori: -</span>
-              <span class="count" id="count">0 kutipan</span>
-            </div>
-          </div>
-
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px">
-            <div class="btns">
-              <button class="btn ghost" id="prevBtn">⟨</button>
-              <button class="btn primary" id="randomBtn">Acak</button>
-              <button class="btn ghost" id="nextBtn">⟩</button>
-            </div>
-            <div class="btns">
-              <button class="btn ghost" id="favBtn">☆ Simpan Favorit</button>
-              <button class="btn ghost" id="copyBtn">✂️ Salin</button>
-              <button class="btn ghost" id="waBtn">💬 WhatsApp</button>
-              <button class="btn warn" id="delCustomBtn" style="display:none">🗑️ Hapus (Kustom)</button>
-            </div>
-          </div>
-        </article>
-
-        <div style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap">
-          <div class="small">Tips: Gunakan ← → untuk navigasi cepat; spasi untuk acak.</div>
+    <article class="quote-card" id="card">
+      <p class="q-text" id="qtext">Klik "Acak" untuk mulai 🎲</p>
+      <div class="q-meta">
+        <span class="pill" id="qcat">Kategori: -</span>
+        <div style="display:flex; gap:8px; align-items:center">
+          <button class="btn ghost" id="prevBtn" title="Sebelumnya">⟨</button>
+          <button class="btn" id="randomBtn" title="Acak">Acak</button>
+          <button class="btn ghost" id="nextBtn" title="Berikutnya">⟩</button>
         </div>
-      </section>
-
-      <aside class="sidebar">
-        <div class="list" id="list">
-          <div class="small">Daftar kutipan (klik untuk menampilkan)</div>
-          <div id="listItems" style="margin-top:8px"></div>
-        </div>
-      </aside>
-    </div>
-
-    <div class="footer">© 2025 Motivasi Hidup — Disimpan lokal di perangkatmu</div>
-  </div>
-
-  <!-- modal add/edit -->
-  <div class="modal-back" id="modal">
-    <div class="modal">
-      <h3 id="modalTitle">Tambah Kutipan</h3>
-      <div style="display:flex; gap:8px; margin-bottom:8px"><input id="inpCat" placeholder="Kategori (mis. Semangat)" type="text"><input id="inpAuthor" placeholder="Sumber (opsional)" type="text"></div>
-      <textarea id="inpText" rows="5" placeholder="Tulis kutipan di sini..."></textarea>
-      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px">
-        <button class="btn ghost" id="cancelModal">Batal</button>
-        <button class="btn primary" id="saveModal">Simpan</button>
       </div>
-    </div>
+      <div class="btns">
+        <button class="btn secondary" id="favBtn">☆ Simpan Favorit</button>
+        <button class="btn success" id="copyBtn">Salin</button>
+        <button class="btn" id="waBtn">Bagikan WhatsApp</button>
+        <button class="btn danger" id="delCustomBtn" style="display:none">Hapus (Kustom)</button>
+      </div>
+    </article>
+
+    <div class="kumpulan" id="chips"></div>
+
+    <div class="footer">© 2025 Motivasi Hidup • Disimpan lokal (favorit & kustom) di perangkatmu</div>
   </div>
 
   <script>
-    // ====== Data Kutipan (lebih banyak) ======
+    // ====== Data Kutipan ======
+    // Struktur: { id, text, category, custom?:true }
     const QUOTES = [
-      // existing + expanded
+      // Move On
       {id:1, text:"Jangan biarkan masa lalu menyetirmu; jadikan ia kaca spion, bukan setir.", category:"Move On"},
       {id:2, text:"Move on itu bukan lupa—itu memilih untuk pulih.", category:"Move On"},
       {id:3, text:"Yang pergi mengosongkan ruang untuk yang lebih baik datang.", category:"Move On"},
       {id:4, text:"Maafkan, lepaskan, lanjutkan. Kamu berhak tenang.", category:"Move On"},
       {id:5, text:"Berhenti menanyakan kenapa; mulai merancang apa selanjutnya.", category:"Move On"},
 
+      // Semangat Hidup
       {id:10, text:"Setiap hari baru adalah undangan untuk menjadi versi yang sedikit lebih baik.", category:"Semangat"},
       {id:11, text:"Disiplin mengalahkan motivasi ketika motivasi sedang rendah.", category:"Semangat"},
       {id:12, text:"Kemajuan kecil harian mengalahkan rencana besar yang tidak dijalankan.", category:"Semangat"},
       {id:13, text:"Jika lelah, istirahat; jangan menyerah.", category:"Semangat"},
       {id:14, text:"Tujuan tanpa aksi hanyalah mimpi. Mulailah 5 menit pertama itu.", category:"Semangat"},
 
+      // Kerja & Produktivitas
       {id:20, text:"Bekerja cerdas dulu, lalu bekerja keras—kombinasinya luar biasa.", category:"Kerja"},
       {id:21, text:"Fokus pada hal yang bisa kamu kendalikan; delegasikan sisanya.", category:"Kerja"},
       {id:22, text:"Prioritasmu terlihat dari kalender dan energi yang kamu sisihkan.", category:"Kerja"},
       {id:23, text:"Selesai lebih baik daripada sempurna yang tak kunjung jadi.", category:"Kerja"},
       {id:24, text:"Konsistensi adalah bakat yang bisa dilatih.", category:"Kerja"},
 
+      // Belajar & Diri
       {id:30, text:"Belajar tidak memperlambatmu; ia mempersingkat jalan memutar.", category:"Belajar"},
       {id:31, text:"Gagal adalah data. Analisis, bukan identitas.", category:"Belajar"},
       {id:32, text:"Pertanyaan yang tepat setengah dari jawaban.", category:"Belajar"},
       {id:33, text:"Hari ini kompetitormu adalah dirimu kemarin.", category:"Belajar"},
       {id:34, text:"Keberanian adalah otot: pakai, lalu ia menguat.", category:"Belajar"},
 
+      // Kesehatan & Mindfulness
       {id:40, text:"Jaga tubuhmu: rumah satu-satunya untuk mimpimu.", category:"Kesehatan"},
       {id:41, text:"Tarik napas dalam. Pelan. Kamu aman di momen ini.", category:"Kesehatan"},
       {id:42, text:"Tidur cukup adalah produktivitas yang disamarkan.", category:"Kesehatan"},
       {id:43, text:"Bergerak 10 menit lebih baik daripada menunggu mood 2 jam.", category:"Kesehatan"},
       {id:44, text:"Batasan adalah bentuk lain dari sayang pada diri sendiri.", category:"Kesehatan"},
 
+      // Optimisme & Syukur
       {id:50, text:"Syukur mengubah cukup menjadi lebih dari cukup.", category:"Syukur"},
       {id:51, text:"Harapan itu seperti matahari: semakin dekat, semakin hangat.", category:"Optimisme"},
       {id:52, text:"Setiap badai selesai. Tugasmu adalah berteduh dengan sabar.", category:"Optimisme"},
       {id:53, text:"Yang kamu tabur hari ini, esok menyapamu sebagai panen.", category:"Optimisme"},
       {id:54, text:"Keajaiban sering terlihat biasa sampai kamu menoleh ke belakang.", category:"Optimisme"},
 
+      // Hubungan & Batas
       {id:60, text:"Cinta yang sehat tidak membuatmu mengecil agar orang lain lega.", category:"Hubungan"},
       {id:61, text:"Orang yang tepat membuatmu tenang, bukan tegang.", category:"Hubungan"},
       {id:62, text:"Kebaikan tanpa batasan sering berakhir menjadi lelah.", category:"Hubungan"},
       {id:63, text:"Hormat pada dirimu mengajarkan orang lain cara memperlakukanmu.", category:"Hubungan"},
-      {id:64, text:"Berani berkata 'tidak' adalah ya pada hal yang lebih penting.", category:"Hubungan"},
-
-      // tambahan banyak kutipan
-      {id:101, text:"Keraguan itu normal. Tanyakan pada dirimu: Apa langkah kecil berikutnya?", category:"Semangat"},
-      {id:102, text:"Lebih baik mencoba dan gagal daripada menyesal karena tak pernah mencoba.", category:"Semangat"},
-      {id:103, text:"Orang sukses adalah mereka yang bangkit lebih sering daripada jatuh.", category:"Semangat"},
-      {id:104, text:"Satu rutinitas kecil yang konsisten dapat mengubah hidupmu dalam setahun.", category:"Semangat"},
-      {id:105, text:"Mulai dari hal paling kecil yang bisa kamu lakukan sekarang.", category:"Semangat"},
-
-      {id:111, text:"Kerja yang berarti sering terlihat membosankan di depan mata orang lain.", category:"Kerja"},
-      {id:112, text:"Jangan takut dimulai dari nol; buktikan lewat hasil.", category:"Kerja"},
-      {id:113, text:"Prioritas yang jelas membuat keputusan lebih mudah.", category:"Kerja"},
-      {id:114, text:"Pelayanan adalah investasi: hasilnya bukan langsung terlihat.", category:"Kerja"},
-
-      {id:121, text:"Membaca 15 menit sehari membuka jendela baru pengetahuan.", category:"Belajar"},
-      {id:122, text:"Belajar itu maraton, bukan sprint—atur napasmu.", category:"Belajar"},
-      {id:123, text:"Catat kesalahanmu; itu adalah peta untuk perbaikan.", category:"Belajar"},
-
-      {id:131, text:"Olahraga bukan hanya tubuh; itu juga perawatan mental.", category:"Kesehatan"},
-      {id:132, text:"Makan yang teratur dan seimbang membuat otakmu bekerja lebih baik.", category:"Kesehatan"},
-
-      {id:141, text:"Ucapkan terima kasih lebih sering; rasa syukur memperbesar kebahagiaan kecil.", category:"Syukur"},
-      {id:142, text:"Melihat sisi baik bukan menutup mata, tapi memilih fokus.", category:"Optimisme"},
-
-      {id:151, text:"Bangun batas yang sehat supaya energimu tak bocor ke hal yang salah.", category:"Hubungan"},
-      {id:152, text:"Dialog yang jujur menyelesaikan kebingungan lebih cepat daripada asumsi.", category:"Hubungan"},
-
-      {id:161, text:"Jangan berlomba dengan orang lain; berlomba dengan dirimu kemarin.", category:"Semangat"},
-      {id:162, text:"Satu hari buruk tidak membatalkan seribu hari baik sebelumnya.", category:"Optimisme"},
-      {id:163, text:"Rencanakan, tapi jangan takut mengubah rencana saat diperlukan.", category:"Belajar"},
-      {id:164, text:"Kebiasaan kecil yang baik bertumpuk jadi hasil besar.", category:"Kerja"},
-      {id:165, text:"Jika ingin cepat, jalankan dengan fokus. Jika ingin aman, jalankan dengan konsisten.", category:"Kerja"},
-
-      {id:171, text:"Beristirahat adalah bagian dari produktivitas, bukan kemalasan.", category:"Kesehatan"},
-      {id:172, text:"Berjalan di alam membantu menyusun ulang pikiran yang kusut.", category:"Kesehatan"},
-
-      {id:181, text:"Syukur membuka mata untuk melihat kebaikan di sekitar.", category:"Syukur"},
-      {id:182, text:"Berharap terbaik, siapkan langkah jika rencana berubah.", category:"Optimisme"},
-
-      {id:191, text:"Jaga kata-katamu; mereka membentuk kebiasaan dan kebiasaan membentuk takdirmu.", category:"Belajar"},
-      {id:192, text:"Ketekunan sering kalah populer dari kecepatan, tapi menang dalam jangka panjang.", category:"Semangat"},
-
-      {id:201, text:"Beberapa pintu tertutup karena yang lebih baik menunggu di belakangnya.", category:"Move On"},
-      {id:202, text:"Perubahan terasa menakutkan karena belum ada bukti—jadi buat bukti kecil.", category:"Semangat"}
+      {id:64, text:"Berani berkata 'tidak' adalah ya pada hal yang lebih penting.", category:"Hubungan"}
     ];
 
-    // ====== state & storage ======
-    const $ = s => document.querySelector(s);
+    // ====== State & Storage ======
+    const $ = (sel)=>document.querySelector(sel);
     const state = {
-      base: [...QUOTES],
+      all: [...QUOTES],
       custom: JSON.parse(localStorage.getItem('mh_custom')||'[]'),
       favs: new Set(JSON.parse(localStorage.getItem('mh_favs')||'[]')),
-      filtered: [], pointer:0
+      filtered: [],
+      pointer: 0,
     };
 
     function persist(){
-      localStorage.setItem('mh_custom', JSON.stringify(state.custom));
       localStorage.setItem('mh_favs', JSON.stringify([...state.favs]));
+      localStorage.setItem('mh_custom', JSON.stringify(state.custom));
     }
 
-    function allQuotes(){ return [...state.base, ...state.custom]; }
+    function allQuotes(){ return [...state.all, ...state.custom]; }
 
-    // build categories
-    function buildCategories(){
-      const cats = Array.from(new Set(allQuotes().map(q=>q.category))).sort();
-      const sel = $('#category'); sel.innerHTML = '<option value="all">Semua Kategori</option>';
-      cats.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
+    // Build category list
+    const categories = Array.from(new Set(allQuotes().map(q=>q.category))).sort();
+    const catSel = $('#category');
+    for(const c of categories){
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c; catSel.appendChild(opt);
     }
-    buildCategories();
 
-    // chips (auto from categories)
-    const chipsEl = $('#chips');
-    function renderChips(){ chipsEl.innerHTML=''; const cats = Array.from(new Set(allQuotes().map(q=>q.category))).sort(); cats.slice(0,12).forEach(c=>{ const b=document.createElement('button'); b.className='pill'; b.textContent=c; b.onclick=()=>{ $('#category').value=c; applyFilter(); randomPick(); }; chipsEl.appendChild(b); }); }
+    // Chips (quick filters)
+    const chips = $('#chips');
+    function renderChips(){
+      chips.innerHTML = '';
+      ['Move On','Semangat','Kerja','Belajar','Kesehatan','Optimisme','Syukur','Hubungan'].forEach(c=>{
+        const el = document.createElement('button');
+        el.className = 'pill';
+        el.textContent = c; el.onclick=()=>{ catSel.value=c; applyFilter(); randomPick(); };
+        chips.appendChild(el);
+      })
+    }
     renderChips();
 
-    // list panel
-    function renderList(){ const wrap = $('#listItems'); wrap.innerHTML=''; const list = state.filtered.length? state.filtered : allQuotes(); list.slice(0,60).forEach((q,i)=>{ const el=document.createElement('div'); el.className='quote-item'; el.textContent = q.text.length>120? q.text.slice(0,120)+'…': q.text; el.onclick=()=>{ const idx = allQuotes().findIndex(x=>x.id===q.id); if(idx>-1){ state.pointer = idx; renderCurrent(); } }; wrap.appendChild(el); }); }
-
-    // apply filter
-    function applyFilter(){ const q = $('#search').value.trim().toLowerCase(); const cat = $('#category').value; const mode = $('#filter').value; let base = allQuotes(); if(cat!=='all') base = base.filter(x=>x.category===cat); if(q) base = base.filter(x=> x.text.toLowerCase().includes(q)); if(mode==='favorites') base = base.filter(x=> state.favs.has(x.id)); if(mode==='custom') base = base.filter(x=> x.custom);
-      state.filtered = base; state.pointer = 0; renderCurrent(); renderList(); $('#count').textContent = (state.filtered.length? state.filtered.length: allQuotes().length) + ' kutipan'; }
-
-    // render current
-    function renderCurrent(){ const list = state.filtered.length? state.filtered : allQuotes(); if(!list.length){ $('#qtext').textContent='Tidak ada kutipan.'; $('#qcat').textContent='Kategori: -'; $('#delCustomBtn').style.display='none'; $('#favBtn').textContent='☆ Simpan Favorit'; return }
-      const q = list[state.pointer % list.length]; $('#qtext').textContent = q.text; $('#qcat').textContent = 'Kategori: ' + q.category + (q.custom? ' • Kustom':''); $('#delCustomBtn').style.display = q.custom? 'inline-flex':'none'; $('#favBtn').textContent = state.favs.has(q.id)? '★ Hapus Favorit':'☆ Simpan Favorit'; // update pointer to real index in allQuotes
-      const realIndex = allQuotes().findIndex(x=>x.id===q.id); if(realIndex>-1) state.pointer = realIndex;
+    // Filtering logic
+    function applyFilter(){
+      const q = $('#search').value.trim().toLowerCase();
+      const cat = $('#category').value;
+      const mode = $('#filter').value; // all, favorites, custom
+      let base = allQuotes();
+      if(cat !== 'all') base = base.filter(x=>x.category===cat);
+      if(q) base = base.filter(x=>x.text.toLowerCase().includes(q));
+      if(mode==='favorites') base = base.filter(x=> state.favs.has(x.id));
+      if(mode==='custom') base = state.custom;
+      state.filtered = base;
+      state.pointer = 0;
+      renderCurrent();
     }
 
-    function randomPick(){ const list = state.filtered.length? state.filtered : allQuotes(); state.pointer = Math.floor(Math.random()*list.length); renderCurrent(); }
+    // Render quote
+    function renderCurrent(){
+      const list = state.filtered.length? state.filtered : allQuotes();
+      if(!list.length){ $('#qtext').textContent = 'Tidak ada kutipan.'; $('#qcat').textContent='Kategori: -'; return }
+      const q = list[state.pointer % list.length];
+      $('#qtext').textContent = q.text;
+      $('#qcat').textContent = 'Kategori: ' + q.category + (q.custom?' • Kustom':'');
+      // toggle custom delete button
+      $('#delCustomBtn').style.display = q.custom? 'inline-flex':'none';
+      // toggle fav label
+      $('#favBtn').textContent = state.favs.has(q.id)? '★ Hapus Favorit':'☆ Simpan Favorit';
+    }
 
-    // navigation
-    $('#prevBtn').onclick = ()=>{ applyFilter(); state.pointer = (state.pointer-1+ (state.filtered.length? state.filtered.length: allQuotes().length)) % (state.filtered.length? state.filtered.length: allQuotes().length); renderCurrent(); };
-    $('#nextBtn').onclick = ()=>{ applyFilter(); state.pointer = (state.pointer+1) % (state.filtered.length? state.filtered.length: allQuotes().length); renderCurrent(); };
+    function randomPick(){
+      const list = state.filtered.length? state.filtered : allQuotes();
+      state.pointer = Math.floor(Math.random()*list.length);
+      renderCurrent();
+    }
+
+    // Navigation
+    $('#prevBtn').onclick = ()=>{ if(!state.filtered.length) applyFilter(); state.pointer = (state.pointer-1+allQuotes().length) % (state.filtered.length||allQuotes().length); renderCurrent(); };
+    $('#nextBtn').onclick = ()=>{ if(!state.filtered.length) applyFilter(); state.pointer = (state.pointer+1) % (state.filtered.length||allQuotes().length); renderCurrent(); };
     $('#randomBtn').onclick = randomPick;
 
-    // fav toggle
-    $('#favBtn').onclick = ()=>{ const list = state.filtered.length? state.filtered : allQuotes(); const q = list[state.pointer % list.length]; if(state.favs.has(q.id)) state.favs.delete(q.id); else state.favs.add(q.id); persist(); renderCurrent(); };
+    // Fav toggle
+    $('#favBtn').onclick = ()=>{
+      const list = state.filtered.length? state.filtered : allQuotes();
+      const q = list[state.pointer % list.length];
+      if(state.favs.has(q.id)) state.favs.delete(q.id); else state.favs.add(q.id);
+      persist(); renderCurrent();
+    };
 
-    // copy
-    $('#copyBtn').onclick = async ()=>{ const txt = $('#qtext').textContent + ' — #MotivasiHidup'; try{ await navigator.clipboard.writeText(txt); toast('Disalin ke clipboard'); }catch{ toast('Gagal menyalin'); } };
+    // Copy
+    $('#copyBtn').onclick = async ()=>{
+      const txt = $('#qtext').textContent + ' — #MotivasiHidup';
+      try{ await navigator.clipboard.writeText(txt); toast('Disalin ke clipboard'); }
+      catch{ toast('Gagal menyalin'); }
+    };
 
-    // whatsapp
-    $('#waBtn').onclick = ()=>{ const txt = $('#qtext').textContent + ' — #MotivasiHidup'; const url = 'https://wa.me/?text=' + encodeURIComponent(txt); window.open(url,'_blank'); };
+    // WhatsApp share
+    $('#waBtn').onclick = ()=>{
+      const txt = $('#qtext').textContent + ' — #MotivasiHidup';
+      const url = 'https://wa.me/?text=' + encodeURIComponent(txt);
+      window.open(url, '_blank');
+    };
 
-    // add custom via modal
-    const modal = $('#modal'); const inpText = $('#inpText'); const inpCat = $('#inpCat'); const inpAuthor = $('#inpAuthor'); let editId = null;
-    $('#openAdd').onclick = ()=>{ editId = null; $('#modalTitle').textContent='Tambah Kutipan'; inpText.value=''; inpCat.value=''; inpAuthor.value=''; modal.style.display='flex'; inpText.focus(); };
-    $('#cancelModal').onclick = ()=>{ modal.style.display='none'; };
-    $('#saveModal').onclick = ()=>{
-      const text = inpText.value.trim(); if(!text) return toast('Isi kutipan dulu'); const cat = inpCat.value.trim()||'Kustom'; if(editId){ state.custom = state.custom.map(x=> x.id===editId? {...x, text, category:cat}: x); } else { const id = Date.now(); state.custom.push({id, text, category:cat, custom:true}); }
-      persist(); buildCategories(); renderChips(); applyFilter(); renderList(); modal.style.display='none'; toast('Kutipan disimpan'); };
+    // Add custom quote
+    $('#addCustomBtn').onclick = ()=>{
+      const text = prompt('Tulis kutipanmu:'); if(!text) return;
+      const cat = prompt('Kategori (mis. Move On, Semangat, Kerja, Belajar, dll):')||'Kustom';
+      const id = Date.now();
+      state.custom.push({id, text:text.trim(), category:cat.trim(), custom:true});
+      persist();
+      // update categories select if new
+      if(!categories.includes(cat)){
+        const opt=document.createElement('option'); opt.value=cat; opt.textContent=cat; catSel.appendChild(opt);
+      }
+      applyFilter();
+      toast('Kutipan ditambahkan');
+    };
 
-    // delete custom
-    $('#delCustomBtn').onclick = ()=>{ const list = state.filtered.length? state.filtered : allQuotes(); const q = list[state.pointer % list.length]; if(!q.custom) return; if(confirm('Hapus kutipan kustom ini?')){ state.custom = state.custom.filter(x=> x.id!==q.id); state.favs.delete(q.id); persist(); applyFilter(); renderList(); toast('Kutipan dihapus'); } };
+    // Delete custom
+    $('#delCustomBtn').onclick = ()=>{
+      const list = state.filtered.length? state.filtered : allQuotes();
+      const q = list[state.pointer % list.length];
+      if(!q.custom) return;
+      if(confirm('Hapus kutipan kustom ini?')){
+        state.custom = state.custom.filter(x=>x.id!==q.id);
+        // juga hapus dari favorit jika ada
+        state.favs.delete(q.id);
+        persist();
+        applyFilter();
+        toast('Kutipan kustom dihapus');
+      }
+    }
 
-    // search listeners (enter to search)
-    $('#search').addEventListener('keypress', (e)=>{ if(e.key==='Enter'){ applyFilter(); renderList(); } });
-    $('#category').addEventListener('change', applyFilter);
-    $('#filter').addEventListener('change', applyFilter);
+    // Search & filter listeners
+    $('#search').addEventListener('input', ()=>{ applyFilter(); });
+    $('#category').addEventListener('change', ()=>{ applyFilter(); });
+    $('#filter').addEventListener('change', ()=>{ applyFilter(); });
 
-    // keyboard shortcuts
-    document.addEventListener('keydown', (e)=>{
-      if(e.code==='ArrowLeft') document.getElementById('prevBtn').click();
-      if(e.code==='ArrowRight') document.getElementById('nextBtn').click();
-      if(e.code==='Space'){ e.preventDefault(); document.getElementById('randomBtn').click(); }
-    });
+    function toast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg; t.style.position='fixed'; t.style.bottom='18px'; t.style.left='50%'; t.style.transform='translateX(-50%)';
+      t.style.background='rgba(255,255,255,.1)'; t.style.backdropFilter='blur(6px)'; t.style.border='1px solid rgba(255,255,255,.15)'; t.style.padding='10px 14px'; t.style.borderRadius='12px'; t.style.boxShadow='var(--shadow)';
+      document.body.appendChild(t); setTimeout(()=>t.remove(), 1800);
+    }
 
-    // toast
-    function toast(msg){ const t=document.createElement('div'); t.textContent=msg; Object.assign(t.style,{position:'fixed',left:'50%',bottom:'22px',transform:'translateX(-50%)',background:'rgba(255,255,255,.06)',padding:'8px 12px',borderRadius:'10px',border:'1px solid rgba(255,255,255,.06)',color:'var(--text)',zIndex:80}); document.body.appendChild(t); setTimeout(()=>t.remove(),1700); }
-
-    // render initial
-    applyFilter(); randomPick(); renderList();
-
-    // export favorites (download as txt)
-    $('#exportBtn').onclick = ()=>{
-      const favIds = [...state.favs]; if(!favIds.length) return toast('Belum ada favorit'); const favs = allQuotes().filter(q=> favIds.includes(q.id)); const txt = favs.map(q=> `- ${q.text} (${q.category})`).join('\n'); const blob = new Blob([txt], {type:'text/plain'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='favorit-motivasi.txt'; a.click(); URL.revokeObjectURL(url); }
-
-    // import (simple: paste JSON of array of {text,category})
-    $('#importBtn').onclick = ()=>{
-      const data = prompt('Tempel JSON array kutipan (contoh: [{"text":"...","category":"Semangat"}])'); if(!data) return; try{ const arr = JSON.parse(data); if(!Array.isArray(arr)) throw 0; arr.forEach(item=>{ const id=Date.now()+Math.floor(Math.random()*1000); state.custom.push({id, text:item.text||'', category:item.category||'Kustom', custom:true}); }); persist(); buildCategories(); renderChips(); applyFilter(); renderList(); toast('Impor selesai'); }catch{ toast('Format JSON salah'); } };
+    // Init
+    applyFilter();
+    // tampilkan satu kutipan awal
+    randomPick();
   </script>
 </body>
 </html>
